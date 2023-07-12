@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:charm_bot/presentation/pages/bookmarks.dart';
+import 'package:charm_bot/utility/config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,12 +32,32 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Config.colors['primary'],
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bookmark),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Bookmarks()),
+              );
+            },
+          ),
+          // theme button
+          IconButton(
+            icon: const Icon(Icons.brightness_4),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: Container(
         width: double.infinity,
         height: double.maxFinite,
         padding: const EdgeInsets.symmetric(horizontal: 40),
-        decoration: const BoxDecoration(
-          color: Colors.black,
+        decoration: BoxDecoration(
+          color: Config.colors['primary'],
         ),
         child: BlocConsumer<GetQuotesCubit, GetQuotesState>(
           listener: (context, state) {
@@ -48,8 +70,8 @@ class _Home extends State<Home> {
                 Image.asset('assets/images/logo.png', width: 200, height: 200),
                 Text(
                   state.currentQuote.phrase,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: Config.colors['secondary'],
                     fontSize: 25,
                   ),
                   textAlign: TextAlign.center,
@@ -58,8 +80,8 @@ class _Home extends State<Home> {
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     state.currentQuote.author,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: Config.colors['secondary'],
                       fontSize: 15,
                       fontStyle: FontStyle.italic,
                     ),
@@ -79,7 +101,7 @@ class _Home extends State<Home> {
                         ),
                         onPressed: () {
                           Share.share(
-                            '${currentQuote.phrase} - ${currentQuote.author}',
+                            '${state.currentQuote.phrase} - ${state.currentQuote.author}',
                           );
                         },
                       ),
@@ -96,7 +118,7 @@ class _Home extends State<Home> {
                             isLiked ? Icons.favorite : Icons.favorite_outline,
                             color: isLiked
                                 ? const Color(0xffE91E63)
-                                : Colors.white,
+                                : Config.colors['secondary'],
                             size: 35,
                           );
                         },
@@ -110,7 +132,7 @@ class _Home extends State<Home> {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Config.colors['secondary'],
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: IconButton(
