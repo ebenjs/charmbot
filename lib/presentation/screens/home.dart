@@ -122,6 +122,15 @@ class _Home extends State<Home> {
                             size: 35,
                           );
                         },
+                        onTap: (bool isLiked) async {
+                          if (isLiked) {
+                            return false;
+                          } else {
+                            BlocProvider.of<GetQuotesCubit>(context)
+                                .addBookmark(state.currentQuote);
+                            return true;
+                          }
+                        },
                       ),
                     ],
                   ),

@@ -26,5 +26,13 @@ class GetQuotesCubit extends Cubit<GetQuotesState> {
     });
   }
 
-  void _isError(dynamic error) => emit(GetQuotesError(error, status: 3));
+  void _isError(dynamic error) => emit(GetQuotesError(error: error, status: 3));
+
+  void addBookmark(Quote quote) {
+    QuoteRepository.addBookmark(quote).then((value) {
+      emit(SaveQuoteToBookmarks(result: value, currentQuote: quote));
+    }).catchError((e) {
+      _isError(e);
+    });
+  }
 }

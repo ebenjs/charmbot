@@ -2,25 +2,34 @@ part of 'get_quotes_cubit.dart';
 
 @immutable
 abstract class GetQuotesState {
-  final int status;
   final Quote currentQuote;
-  GetQuotesState({required this.status, required this.currentQuote});
+  GetQuotesState({required this.currentQuote});
 }
 
 class GetQuotesInitial extends GetQuotesState {
-  GetQuotesInitial({required int status, required Quote currentQuote})
-      : super(status: status, currentQuote: currentQuote);
+  final int status;
+
+  GetQuotesInitial({required this.status, required currentQuote})
+      : super(currentQuote: currentQuote);
 }
 
 class GetQuotesLoaded extends GetQuotesState {
-  GetQuotesLoaded({
-    required int status,
-    required Quote currentQuote,
-  }) : super(status: status, currentQuote: currentQuote);
+  final int status;
+
+  GetQuotesLoaded({required this.status, required currentQuote})
+      : super(currentQuote: currentQuote);
 }
 
 class GetQuotesError extends GetQuotesState {
+  final int status;
   final dynamic error;
-  GetQuotesError(this.error, {required int status})
-      : super(status: status, currentQuote: Quote(phrase: '', author: ''));
+
+  GetQuotesError({required this.error, required this.status})
+      : super(currentQuote: Quote(phrase: '', author: ''));
+}
+
+class SaveQuoteToBookmarks extends GetQuotesState {
+  final int result;
+  SaveQuoteToBookmarks({required this.result, required currentQuote})
+      : super(currentQuote: currentQuote);
 }
