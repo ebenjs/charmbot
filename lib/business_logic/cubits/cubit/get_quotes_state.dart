@@ -27,9 +27,3 @@ class GetQuotesError extends GetQuotesState {
   GetQuotesError({required this.error, required this.status})
       : super(currentQuote: Quote(phrase: '', author: ''));
 }
-
-class SaveQuoteToBookmarks extends GetQuotesState {
-  final int result;
-  SaveQuoteToBookmarks({required this.result, required currentQuote})
-      : super(currentQuote: currentQuote);
-}

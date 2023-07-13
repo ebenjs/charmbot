@@ -1,49 +1,31 @@
 import 'dart:math';
 
+import 'package:charm_bot/data/data_persiters/implementations/quote_data_persister.dart';
+import 'package:charm_bot/data/data_providers/implementations/bookmarks_data_provider.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../data_providers/quote_data_provider.dart';
+import '../data_providers/implementations/quote_data_provider.dart';
 import '../models/quote.dart';
 
 class QuoteRepository {
-  static Future<List<Quote>> getQuotes() async {
-    List<dynamic> quotes = await QuoteDataProvider.fetchQuotes();
-    return quotes.map((quote) => Quote.fromJson(quote)).toList();
-  }
-
   static Future<Quote> getQuote() async {
-    final response = await QuoteDataProvider.fetchQuotes();
+    final response = await QuoteDataProvider().readAll();
     final random = Random();
     return Quote.fromJson(response[random.nextInt(response.length)]);
   }
 
-  static Future<int> addBookmark(Quote quote) async {
-    // using Isar database
-    final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open(
-      [QuoteSchema],
-      directory: dir.path,
-    );
-
-    await isar.writeTxn(() async {
-      await isar.quotes.put(quote);
-    });
-
-    final existingQuote = await isar.quotes.get(quote.id);
-
-    return 0;
+  static Future<Quote> addBookmark(Quote quote) async {
+    await QuoteDataPersister().create(quote);
+    return quote;
   }
 
   static Future<List<Quote>> getBookmarks() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open(
-      [QuoteSchema],
-      directory: dir.path,
-    );
+    List<Quote> bookmarks = [];
+    await BookmarksDataProvider().readAll().then((value) {
+      bookmarks = value;
+    });
 
-    final quotes = await isar.quotes.where().findAll();
-
-    return quotes;
+    return bookmarks;
   }
 }
