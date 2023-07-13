@@ -28,14 +28,22 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Charm Bot',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'OpenSans'),
-        localizationsDelegates: [
+        theme: ThemeData(
+          fontFamily: 'OpenSans',
+          brightness: Brightness.light,
+        ),
+        darkTheme: ThemeData(
+          fontFamily: 'OpenSans',
+          brightness: Brightness.dark,
+        ),
+        themeMode: ThemeMode.light,
+        localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [
+        supportedLocales: const [
           Locale('en'),
           Locale('fr'),
         ],

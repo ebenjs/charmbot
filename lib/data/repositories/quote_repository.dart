@@ -28,4 +28,14 @@ class QuoteRepository {
 
     return bookmarks;
   }
+
+  // delete bookmark
+  static Future<int> deleteBookmark(Quote quote) async {
+    int result = -1;
+    await QuoteDataPersister().delete(quote).then((value) {
+      result = value;
+    });
+
+    return result;
+  }
 }
