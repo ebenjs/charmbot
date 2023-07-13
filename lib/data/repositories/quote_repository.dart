@@ -21,10 +21,8 @@ class QuoteRepository {
   static Future<int> addBookmark(Quote quote) async {
     // using Isar database
     final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open(
-      [QuoteSchema],
-      directory: dir.path,
-    );
+    final isar =
+        await Isar.open([QuoteSchema], directory: dir.path, name: "bookmark");
 
     await isar.writeTxn(() async {
       await isar.quotes.put(quote);
@@ -32,17 +30,19 @@ class QuoteRepository {
 
     final existingQuote = await isar.quotes.get(quote.id);
 
+    isar.close();
+
     return 0;
   }
 
   static Future<List<Quote>> getBookmarks() async {
     final dir = await getApplicationDocumentsDirectory();
-    final isar = await Isar.open(
-      [QuoteSchema],
-      directory: dir.path,
-    );
+    final isar =
+        await Isar.open([QuoteSchema], directory: dir.path, name: "bookmark");
 
     final quotes = await isar.quotes.where().findAll();
+
+    isar.close();
 
     return quotes;
   }

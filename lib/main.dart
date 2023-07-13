@@ -1,3 +1,4 @@
+import 'package:charm_bot/business_logic/cubits/cubit/bookmarks_cubit.dart';
 import 'package:charm_bot/business_logic/cubits/cubit/get_quotes_cubit.dart';
 import 'package:charm_bot/presentation/screens/home.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetQuotesCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => GetQuotesCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BookmarksCubit(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Charm Bot',
         debugShowCheckedModeBanner: false,

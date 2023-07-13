@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:charm_bot/business_logic/cubits/cubit/bookmarks_cubit.dart';
 import 'package:charm_bot/presentation/pages/bookmarks.dart';
 import 'package:charm_bot/utility/config.dart';
 import 'package:dio/dio.dart';
@@ -126,7 +127,7 @@ class _Home extends State<Home> {
                           if (isLiked) {
                             return false;
                           } else {
-                            BlocProvider.of<GetQuotesCubit>(context)
+                            BlocProvider.of<BookmarksCubit>(context)
                                 .addBookmark(state.currentQuote);
                             return true;
                           }
