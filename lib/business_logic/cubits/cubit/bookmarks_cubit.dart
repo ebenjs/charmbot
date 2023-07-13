@@ -27,4 +27,11 @@ class BookmarksCubit extends Cubit<BookmarksState> {
       );
     });
   }
+
+  void deleteBookmark(Quote quote) {
+    QuoteRepository.deleteBookmark(quote).then((value) {
+      emit(DeleteQuoteFromBookmarks(result: 0));
+      getBookmarks();
+    });
+  }
 }

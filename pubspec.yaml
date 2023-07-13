@@ -20,6 +20,7 @@ dependencies:
   like_button: ^2.0.5
   path_provider: ^2.0.15
   share_plus: ^7.0.2
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -41,9 +42,10 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/heart.png
-    - assets/images/copy.png
     - assets/images/share.png
+    - assets/images/share-inversed.png
     - assets/images/regenerate.png
+    - assets/images/regenerate-inversed.png
     - assets/images/logo-inversed.png
 
 flutter_launcher_icons:

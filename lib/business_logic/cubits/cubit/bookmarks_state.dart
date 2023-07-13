@@ -17,3 +17,10 @@ class GetSavedQuotesToBookmarks extends BookmarksState {
   GetSavedQuotesToBookmarks({required this.bookmarks, required this.result})
       : super(bookmarks: bookmarks);
 }
+
+// delete
+
+class DeleteQuoteFromBookmarks extends BookmarksState {
+  final int result;
+  DeleteQuoteFromBookmarks({required this.result}) : super(bookmarks: []);
+}

@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:charm_bot/business_logic/cubits/cubit/bookmarks_cubit.dart';
 import 'package:charm_bot/presentation/pages/bookmarks.dart';
+import 'package:charm_bot/presentation/screens/theme_screen.dart';
+import 'package:charm_bot/utility/theme_computing.dart';
 import 'package:charm_bot/utility/config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -21,24 +23,37 @@ class Home extends StatefulWidget {
   State<Home> createState() => _Home();
 }
 
-class _Home extends State<Home> {
+class _Home extends State<Home> with ThemeScreen {
   Quote currentQuote = Quote(phrase: '', author: '');
 
   @override
   void initState() {
     super.initState();
+
     BlocProvider.of<GetQuotesCubit>(context).load();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.microtask(() {
+        initializeTheme().then((value) {
+          setState(() {
+            brightness = value;
+          });
+        });
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Config.colors['primary'],
+        backgroundColor:
+            ThemeComputing.getThemeSpecificPrimaryColor(brightness),
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.bookmark),
+            icon: Icon(Icons.bookmark,
+                color:
+                    ThemeComputing.getThemeSpecificSecondaryColor(brightness)),
             onPressed: () {
               Navigator.push(
                 context,
@@ -48,8 +63,17 @@ class _Home extends State<Home> {
           ),
           // theme button
           IconButton(
-            icon: const Icon(Icons.brightness_4),
-            onPressed: () {},
+            icon: Icon(Icons.brightness_4,
+                color:
+                    ThemeComputing.getThemeSpecificSecondaryColor(brightness)),
+            onPressed: () {
+              ThemeComputing.changeTheme(context);
+              initializeTheme().then((value) {
+                setState(() {
+                  brightness = value;
+                });
+              });
+            },
           ),
         ],
       ),
@@ -58,7 +82,7 @@ class _Home extends State<Home> {
         height: double.maxFinite,
         padding: const EdgeInsets.symmetric(horizontal: 40),
         decoration: BoxDecoration(
-          color: Config.colors['primary'],
+          color: ThemeComputing.getThemeSpecificPrimaryColor(brightness),
         ),
         child: BlocConsumer<GetQuotesCubit, GetQuotesState>(
           listener: (context, state) {
@@ -68,11 +92,15 @@ class _Home extends State<Home> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/logo.png', width: 200, height: 200),
+                Image.asset(
+                    "assets/images/${ThemeComputing.getThemeSpecificLogo(brightness)}",
+                    width: 200,
+                    height: 200),
                 Text(
                   state.currentQuote.phrase,
                   style: TextStyle(
-                    color: Config.colors['secondary'],
+                    color: ThemeComputing.getThemeSpecificSecondaryColor(
+                        brightness),
                     fontSize: 25,
                   ),
                   textAlign: TextAlign.center,
@@ -82,7 +110,8 @@ class _Home extends State<Home> {
                   child: Text(
                     state.currentQuote.author,
                     style: TextStyle(
-                      color: Config.colors['secondary'],
+                      color: ThemeComputing.getThemeSpecificSecondaryColor(
+                          brightness),
                       fontSize: 15,
                       fontStyle: FontStyle.italic,
                     ),
@@ -96,7 +125,7 @@ class _Home extends State<Home> {
                       // IconButton
                       IconButton(
                         icon: Image.asset(
-                          'assets/images/share.png',
+                          "assets/images/${ThemeComputing.getThemeSpecificShareIcon(brightness)}",
                           width: 50,
                           height: 50,
                         ),
@@ -119,7 +148,8 @@ class _Home extends State<Home> {
                             isLiked ? Icons.favorite : Icons.favorite_outline,
                             color: isLiked
                                 ? const Color(0xffE91E63)
-                                : Config.colors['secondary'],
+                                : ThemeComputing.getThemeSpecificSecondaryColor(
+                                    brightness),
                             size: 35,
                           );
                         },
@@ -142,12 +172,13 @@ class _Home extends State<Home> {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Config.colors['secondary'],
+                      color: ThemeComputing.getThemeSpecificSecondaryColor(
+                          brightness),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: IconButton(
                       icon: Image.asset(
-                        'assets/images/regenerate.png',
+                        "assets/images/${ThemeComputing.getThemeSpecificRegenerateIcon(brightness)}",
                         width: 50,
                         height: 50,
                       ),
@@ -164,4 +195,12 @@ class _Home extends State<Home> {
       ),
     );
   }
+
+  // Future<void> _initializeData() async {
+  //   await ThemeComputing.getSpecificBrightness().then((value) {
+  //     setState(() {
+  //       brightness = value;
+  //     });
+  //   });
+  // }
 }
