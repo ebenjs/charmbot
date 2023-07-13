@@ -10,17 +10,26 @@ dependencies:
   dio: ^5.2.1+1
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.3
   flutter_localizations:
     sdk: flutter
   intl: any
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  json_annotation: ^4.8.1
   like_button: ^2.0.5
+  path_provider: ^2.0.15
   share_plus: ^7.0.2
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   flutter_launcher_icons: "^0.13.1"
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.2
+  isar_generator: ^3.1.0+1
 
 flutter:
   uses-material-design: true
@@ -33,9 +42,10 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/heart.png
-    - assets/images/copy.png
     - assets/images/share.png
+    - assets/images/share-inversed.png
     - assets/images/regenerate.png
+    - assets/images/regenerate-inversed.png
     - assets/images/logo-inversed.png
 
 flutter_launcher_icons:

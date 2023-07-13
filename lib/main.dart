@@ -1,5 +1,8 @@
-import 'package:charm_bot/screens/home.dart';
+import 'package:charm_bot/business_logic/cubits/cubit/bookmarks_cubit.dart';
+import 'package:charm_bot/business_logic/cubits/cubit/get_quotes_cubit.dart';
+import 'package:charm_bot/presentation/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,21 +16,39 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Charm Bot',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'OpenSans'),
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => GetQuotesCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BookmarksCubit(),
+        ),
       ],
-      supportedLocales: [
-        Locale('en'),
-        Locale('fr'),
-      ],
-      home: const Home(),
+      child: MaterialApp(
+        title: 'Charm Bot',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'OpenSans',
+          brightness: Brightness.light,
+        ),
+        darkTheme: ThemeData(
+          fontFamily: 'OpenSans',
+          brightness: Brightness.dark,
+        ),
+        themeMode: ThemeMode.light,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'),
+          Locale('fr'),
+        ],
+        home: const Home(),
+      ),
     );
   }
 }
