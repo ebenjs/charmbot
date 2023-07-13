@@ -13,7 +13,7 @@ class BookmarksCubit extends Cubit<BookmarksState> {
 
   void addBookmark(Quote quote) {
     QuoteRepository.addBookmark(quote).then((value) {
-      emit(SaveQuoteToBookmarks(result: value));
+      emit(SaveQuoteToBookmarks(result: 0));
     });
   }
 
