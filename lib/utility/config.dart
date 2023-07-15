@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Config {
-  static const String API_URL = "http://192.168.1.71:8080/api/v1";
+  static const String API_URL = "http://charmbot.azurewebsites.net/api/v1";
 
   static final colors = {
     // dark
