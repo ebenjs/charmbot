@@ -1,4 +1,4 @@
-package com.example.charm_bot
+package dev.ebenjs.charmbot
 
 import io.flutter.embedding.android.FlutterActivity
 
